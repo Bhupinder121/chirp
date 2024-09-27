@@ -18,17 +18,20 @@ defmodule ChirpWeb.Router do
   end
 
   scope "/", ChirpWeb do
-    pipe_through [:browser, :require_authenticated_user]
+    pipe_through [:browser]
 
     get "/", PageController, :home
-    
-    
-    live "/posts", PostLive.Index, :index
-    live "/posts/new", PostLive.Index, :new
-    live "/posts/:id/edit", PostLive.Index, :edit
+  end 
 
-    live "/posts/:id", PostLive.Show, :show
-    live "/posts/:id/show/edit", PostLive.Show, :edit
+  scope "/posts", ChirpWeb  do
+    pipe_through [:browser, :require_authenticated_user]
+
+    live "/", PostLive.Index, :index
+    live "/new", PostLive.Index, :new
+    live "/:id/edit", PostLive.Index, :edit
+
+    live "/:id", PostLive.Show, :show
+    live "/:id/show/edit", PostLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

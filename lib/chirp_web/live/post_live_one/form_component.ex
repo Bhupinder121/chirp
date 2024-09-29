@@ -40,6 +40,7 @@ defmodule ChirpWeb.PostLive.FormComponent do
   end
 
   def handle_event("save", %{"post" => post_params}, socket) do
+    post_params = Map.put(post_params, "username", socket.assigns.post.username)
     save_post(socket, socket.assigns.action, post_params)
   end
 

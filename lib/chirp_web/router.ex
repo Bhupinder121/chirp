@@ -25,13 +25,14 @@ defmodule ChirpWeb.Router do
 
   scope "/posts", ChirpWeb  do
     pipe_through [:browser, :require_authenticated_user]
+    live_session :authenticated, on_mount: [{ChirpWeb.UserAuth, :ensure_authenticated}] do
+      live "/", PostLive.Index, :index
+      live "/new", PostLive.Index, :new
+      live "/:id/edit", PostLive.Index, :edit
 
-    live "/", PostLive.Index, :index
-    live "/new", PostLive.Index, :new
-    live "/:id/edit", PostLive.Index, :edit
-
-    live "/:id", PostLive.Show, :show
-    live "/:id/show/edit", PostLive.Show, :edit
+      live "/:id", PostLive.Show, :show
+      live "/:id/show/edit", PostLive.Show, :edit
+    end
   end
 
   # Other scopes may use custom stacks.
